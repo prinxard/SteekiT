@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SteekiT.Models;
+using SteekiT.Models.ViewModels;
 
-namespace SteekiT.Controllers
+namespace SteekiT.Areas.Customers.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
