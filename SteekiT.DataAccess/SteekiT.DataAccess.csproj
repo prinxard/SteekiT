@@ -10,10 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SteekiT.Models\SteekiT.Models.csproj" />
     <ProjectReference Include="..\SteekiT.Utility\SteekiT.Utility.csproj" />
   </ItemGroup>
