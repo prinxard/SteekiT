@@ -24,8 +24,8 @@ namespace SteekiT.DataAccess.Repository.IRepository
 
         void Remove(int id);
 
-        void Remove(T id);
+        void Remove(T entity);
 
-        void RemoveRange(IEnumerable<T> id);
+        void RemoveRange(IEnumerable<T> entity);
     }
 }
