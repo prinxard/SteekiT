@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SteekiT.DataAccess.Repository;
 using SteekiT.DataAccess.Repository.IRepository;
+using SteekiT.Models;
 
 namespace SteekiT.Areas.Admin.Controllers
 {
@@ -20,6 +21,24 @@ namespace SteekiT.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        public IActionResult Upsert(int? id)
+        {
+            Category category = new Category();
+            if (id == null)
+            {
+                //create
+                return View(category);
+            }
+            //edit
+            category = _unitOfWork.Category.Get(id.GetValueOrDefault());
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+
+            
         }
 
         #region API CALLs
