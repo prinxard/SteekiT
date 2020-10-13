@@ -8,6 +8,7 @@ namespace SteekiT.DataAccess.Repository.IRepository
     {
         ICategoryRepository Category { get; }
         InterfaceStoredProcedureCall StoredProcedureCall { get; }
+        void Save();
     }
 
 }

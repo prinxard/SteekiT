@@ -60,7 +60,8 @@ namespace SteekiT.DataAccess.Repository
 
             if (filter != null)
             {
-                query = query.Where(filter);
+
+                query = query.Where(filter); 
             }
             if (includeProperties != null)
             {
