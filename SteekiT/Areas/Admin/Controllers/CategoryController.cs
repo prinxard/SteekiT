@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using SteekiT.DataAccess.Repository;
 using SteekiT.DataAccess.Repository.IRepository;
 using SteekiT.Models;
@@ -67,6 +68,19 @@ namespace SteekiT.Areas.Admin.Controllers
         {
             var allObj = _unitOfWork.Category.GetAll();
             return Json(new { data = allObj });
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var objFromDb = _unitOfWork.Category.Get(id);
+            if (objFromDb == null)
+            {
+                return Json(new { success = false, Message = "Error While Deleting" });
+            }
+            _unitOfWork.Category.Remove(objFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = true, Message = "Deleted successfully" }); 
         }
         #endregion
     }
