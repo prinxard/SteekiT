@@ -7,6 +7,8 @@ namespace SteekiT.DataAccess.Repository.IRepository
     public interface IUnitOfWork : IDisposable
     {
         ICategoryRepository Category { get; }
+
+        ICoverTypeRepository CoverType { get; }
         InterfaceStoredProcedureCall StoredProcedureCall { get; }
         void Save();
     }

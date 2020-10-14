@@ -13,9 +13,13 @@ namespace SteekiT.DataAccess.Repository
         {
             _db = db;
             Category = new CategoryRepository(_db);
+            CoverType = new CoverTypeRepository(_db);
+
             StoredProcedureCall = new StoredProcedureCall(_db);
         }
         public ICategoryRepository Category { get; private set; }
+
+        public ICoverTypeRepository CoverType { get; private set; }
         public InterfaceStoredProcedureCall StoredProcedureCall { get; private set; }
 
         public void Dispose()
