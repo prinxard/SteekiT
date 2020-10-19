@@ -24,7 +24,7 @@ namespace SteekiT.DataAccess.Migrations
                     CategoryId = table.Column<int>(nullable: false),
                     CoverTypeId = table.Column<int>(nullable: false)
                 },
-                constraints: table =>
+                constraints: table => 
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
