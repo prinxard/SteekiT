@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using SteekiT.DataAccess.Repository;
 using SteekiT.DataAccess.Repository.IRepository;
 using SteekiT.Models;
+using SteekiT.Utility;
 
 namespace SteekiT.Areas.Admin.Controllers
 {
@@ -32,7 +34,9 @@ namespace SteekiT.Areas.Admin.Controllers
                 return View(coverType);
             }
             //edit
-            coverType = _unitOfWork.CoverType.Get(id.GetValueOrDefault());
+            var parameter = new DynamicParameters();
+            parameter.Add("@Id", id);
+            coverType = _unitOfWork.StoredProcedureCall.OneRecord<CoverType>(SD.Proc_CoverType_Get, parameter);
             if (coverType == null)
             {
                 return NotFound();
@@ -46,15 +50,18 @@ namespace SteekiT.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var parameter = new DynamicParameters();
+                parameter.Add("@Name", coverType.Name);
                 if (coverType.Id == 0)
                 {
-                    _unitOfWork.CoverType.Add(coverType);
+                    _unitOfWork.StoredProcedureCall.Execute(SD.Proc_CoverType_Create, parameter);
                 }
                 else
                 {
-                    _unitOfWork.CoverType.Update(coverType);
-                    
-                }
+                    parameter.Add("@Id", coverType.Id);
+                    _unitOfWork.StoredProcedureCall.Execute(SD.Proc_CoverType_Update, parameter);
+
+                } 
                 _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
@@ -66,19 +73,21 @@ namespace SteekiT.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var allObj = _unitOfWork.CoverType.GetAll();
+            var allObj = _unitOfWork.StoredProcedureCall.List<CoverType>(SD.Proc_CoverType_GetAll,null);
             return Json(new { data = allObj });
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.CoverType.Get(id);
+            var parameter = new DynamicParameters();
+            parameter.Add("@Id", id);
+            var objFromDb = _unitOfWork.StoredProcedureCall.OneRecord<CoverType>(SD.Proc_CoverType_Get, parameter);
             if (objFromDb == null)
             {
                 return Json(new { success = false, Message = "Error While Deleting" });
             }
-            _unitOfWork.CoverType.Remove(objFromDb);
+            _unitOfWork.StoredProcedureCall.Execute(SD.Pro_CoverType_Delete, parameter);
             _unitOfWork.Save();
             return Json(new { success = true, Message = "Deleted successfully" }); 
         }
