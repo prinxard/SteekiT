@@ -9,6 +9,8 @@ namespace SteekiT.DataAccess.Repository.IRepository
         ICategoryRepository Category { get; }
 
         ICoverTypeRepository CoverType { get; }
+        IProductRepository Product { get; }
+
         InterfaceStoredProcedureCall StoredProcedureCall { get; }
         void Save();
     }
