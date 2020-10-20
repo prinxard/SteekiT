@@ -128,6 +128,12 @@ namespace SteekiT.Areas.Admin.Controllers
             {
                 return Json(new { success = false, Message = "Error While Deleting" });
             }
+            string webRootPath = _hostEnvironment.WebRootPath;
+            var imagePath = Path.Combine(webRootPath, objFromDb.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
             _unitOfWork.Product.Remove(objFromDb);
             _unitOfWork.Save();
             return Json(new { success = true, Message = "Deleted successfully" }); 
